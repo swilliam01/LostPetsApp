@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <th:block th:insert="base :: header"></th:block>
 </head>
 <body>
+<div th:replace="base :: navlinks"></div>
 <div sec:authorize="isAuthenticated()">
 <a href="/add">Add a message</a><br />
-</div>
-<div sec:authorize="!isAuthenticated()">
-    <a href="/login">Login</a><br />
 </div>
     <table>
     <tr>
