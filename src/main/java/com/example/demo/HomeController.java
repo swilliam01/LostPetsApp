@@ -15,7 +15,7 @@ import java.security.Principal;
 public class HomeController {
 
   @Autowired
-  CourseRepository courseRepository;
+  MessageRepository messageRepository;
 
 
   @Autowired
@@ -32,7 +32,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public String listCourses(Model model){
-        model.addAttribute("courses", courseRepository.findAll());
+        model.addAttribute("messages", messageRepository.findAll());
         return "list";
     }
 
@@ -62,39 +62,33 @@ public class HomeController {
         return "login";
     }
 
-
-
   @GetMapping("/add")
-  public String courseForm(Model model) {
-    model.addAttribute("course", new Course());
-    return "courseform";
+  public String listNow (Model model){
+    model.addAttribute("message", new Message());
+    return "listform";
   }
-
   @PostMapping("/process")
-  public String processForm(@Valid Course course, BindingResult result){
+  public String processList (@Valid @ModelAttribute("message") Message message, BindingResult result){
     if(result.hasErrors()){
-      return "courseform";
+      return "listform";
     }
-
-    courseRepository.save(course);
+    messageRepository.save(message);
     return "redirect:/";
   }
 
-  @RequestMapping("/detail/{id}")
-  public String showCourse(@PathVariable("id") long id, Model model){
-    model.addAttribute("course", courseRepository.findById(id).get());
+  @RequestMapping("/edit/{id}")
+  public String updateList (@PathVariable ("id") long id, Model model){
+    model.addAttribute("message", messageRepository.findById(id).get());
+    return "listform";
+  }
+  @RequestMapping("/details/{id}")
+  public String showList (@PathVariable ("id") long id, Model model){
+    model.addAttribute("message", messageRepository.findById(id).get());
     return "show";
   }
-
-  @RequestMapping("/update/{id}")
-  public String updateCourse(@PathVariable("id") long id, Model model){
-    model.addAttribute("course", courseRepository.findById(id).get());
-    return "courseform";
-  }
-
   @RequestMapping("/delete/{id}")
-  public String delCourse(@PathVariable("id") long id){
-    courseRepository.deleteById(id);
+  public String delList (@PathVariable ("id") long id){
+    messageRepository.deleteById(id);
     return "redirect:/";
   }
 }
