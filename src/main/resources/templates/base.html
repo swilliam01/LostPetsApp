@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -10,20 +10,43 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <style>
             body {
-                background-color: lightblue;
+                background-image:url('https://images.pexels.com/photos/842395/pexels-photo-842395.jpeg?cs=srgb&dl=beautiful-bloom-blooming-842395.jpg&fm=jpg');
+                /*background-width:128px;*/
+                background-size: 1350px;
+            }
+            .nav {
+                background-color: yellow;
+                list-style-type: none;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+            }
+            .nav li {
+                display: inline-block;
+                font-size: 20px;
+                padding: 10px;
             }
         </style>
     </th:block>
 </head>
 <body>
+
 <div th:fragment="navlinks">
-<ul>
+<ul class="nav">
     <li><a class="active">Messaging App</a></li>
     <li><a href="/">Home</a></li>
     <li><a href="/login">Login</a></li>
     <li><a href="/register">Register</a></li>
+    <div sec:authorize="isAuthenticated()">
+        <li> Welcome [[${#authentication.name}]]!</li>
+    </div>
+        <div sec:authorize="isAuthenticated()">
+            <li><a href="/logout">Logout</a></li>
+        </div>
 </ul>
+    <div class="jumbotron text-center">
     <h1>Welcome to Code Work Academy Messaging App</h1>
     </div>
+</div>
 </body>
 </html>

@@ -4,36 +4,48 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <th:block th:insert="base :: header"></th:block>
+    <style>
+        center {
+            margin: auto;
+            width: 60%;
+            border: 3px solid #73AD21;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="base :: navlinks"></div>
 <div sec:authorize="isAuthenticated()">
-<a href="/add">Add a message</a><br />
+    <a href="/add"><b>Add a message</b></a><br />
 </div>
     <table>
-    <tr>
-        <th>Content</th>
-        <th>Sent By</th>
-        <th>Date</th>
-    </tr>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <h3>Content</h3>
+                    <h3>Sent By</h3>
+                    <h3>Date</h3>
+                </div>
+            </div>
+
     <tr th:each="message : ${messages}">
         <td th:text="${message.content}"></td>
         <td th:text="${message.sentBy}"></td>
         <td th:text="${message.date}"></td>
         <td>
-            <div sec:authorize="isAuthenticated()">
+            </div>
+            <div sec:authorize="hasAuthority('ADMIN')">
             <a th:href="@{/edit/{id}(id=${message.id})}">Update</a>
             <a th:href="@{/details/{id}(id=${message.id})}">Details</a>
             <a th:href="@{/delete/{id}(id=${message.id})}">Delete</a>
             </div>
+            <div sec:authorize="hasAuthority('USER')">
+                <a th:href="@{/edit/{id}(id=${message.id})}">Update</a>
+                <a th:href="@{/details/{id}(id=${message.id})}">Details</a>
+                <a th:href="@{/delete/{id}(id=${message.id})}">Delete</a>
+            </div>
         </td></tr>
+        </div>
 </table>
-<div sec:authorize="!isAuthenticated()">
-    <a href="/register">Register</a>
-</div>
-<div sec:authorize="isAuthenticated()">
-    <a href="/logout">Logout</a>
-</div>
-
 </body>
 </html>
