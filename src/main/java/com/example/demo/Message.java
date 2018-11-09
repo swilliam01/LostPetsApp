@@ -30,6 +30,12 @@ public class Message {
   public Message() {
   }
 
+  public Message(@NotNull @Size(min = 3) String content, @NotNull @Size(min = 4) String sentBy, @NotNull @Size(min = 3) String date) {
+    this.content = content;
+    this.sentBy = sentBy;
+    this.date = date;
+  }
+
   public long getId() {
     return id;
   }

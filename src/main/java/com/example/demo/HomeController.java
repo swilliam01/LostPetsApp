@@ -2,6 +2,10 @@ package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,14 +25,9 @@ public class HomeController {
   @Autowired
   private UserService userService;
 
+  @Autowired
+  UserRepository userRepository;
 
-    @RequestMapping("/secure")
-    public String secure(Principal principal, Model model){
-        User myuser =((CustomUserDetails)((UsernamePasswordAuthenticationToken)principal)
-                .getPrincipal()).getUser();
-        model.addAttribute("myuser",myuser);
-        return "secure";
-    }
 
     @RequestMapping("/")
     public String listCourses(Model model){
@@ -72,7 +71,8 @@ public class HomeController {
     if(result.hasErrors()){
       return "listform";
     }
-    messageRepository.save(message);
+
+      messageRepository.save(message);
     return "redirect:/";
   }
 
@@ -90,5 +90,12 @@ public class HomeController {
   public String delList (@PathVariable ("id") long id){
     messageRepository.deleteById(id);
     return "redirect:/";
+  }
+  protected User getUser(){
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String currentUsername = authentication.getName();
+    User user = userRepository.findByUsername(currentUsername);
+
+    return user;
   }
 }

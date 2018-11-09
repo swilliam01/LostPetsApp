@@ -11,8 +11,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import java.util.Optional;
+
 @Configuration
 @EnableWebSecurity
+
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -59,4 +62,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(encoder());
 
     }
+//    @Override
+//    public CredentialValidationResult validate(RememberMeCredential credential) {
+//        Optional<User> user = userService.findByLoginToken(credential.getToken());
+//        if (user.isPresent()) {
+//            return new CredentialValidationResult(new CallerPrincipal(user.getEmail()));
+//        }
+//        else {
+//            return CredentialValidationResult.INVALID_RESULT;
+//        }
+//    }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests()
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/**").hasRole("USER")
+//                .and()
+//                .formLogin();
+//    }
 }
