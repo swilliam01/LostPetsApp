@@ -1,13 +1,17 @@
 package com.example.demo;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +37,14 @@ public class SSUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
     }
+
+
+//    public User getCurrentUser(Principal principal) {
+//
+//        return ((User) SecurityContextHolder.getContext()
+//                .getAuthentication()
+//                .getPrincipal());
+//    }
     private Set<GrantedAuthority> getAuthorities(User appUser){
         Set<GrantedAuthority> authorities= new HashSet<GrantedAuthority>();
         for (Role role : appUser.getRoles()){
@@ -42,4 +54,6 @@ public class SSUserDetailsService implements UserDetailsService {
         System.out.println("User authorities are" + authorities.toString());
         return authorities;
     }
+
 }
+

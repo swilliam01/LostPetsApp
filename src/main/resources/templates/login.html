@@ -7,20 +7,30 @@
 </head>
 <body>
 <div th:replace="base :: navlinks"></div>
-<h1>Login Page</h1>
-<div th:if="${param.error}">
-    Invalid username or password
-</div>
-<div th:if="${param.logout}">
-    You have been logged out
-</div>
+<div class="container">
+    <h2 class="text-center">Login Page</h2>
+    <div th:if="${param.error}">
+        Invalid username or password
+    </div>
+    <div th:if="${param.logout}">
+        You have been logged out
+    </div>
 
-<form th:action="@{/login}"
-      method="post">
-    <div><label>User name: <input type="text" name="username"/></label></div>
-    <div><label>Password: <input type="password" name="password"/></label></div>
-    <div><input type="submit" value="Sign in"/></div>
+    <form action="/action_page.php"
+            th:action="@{/login}"
+          method="post">
+        <div>
+            <label>User name:</label><br/>
+            <input type="text" class="form-control" name="username"/>
+        </div>
+        <div>
+            <label>Password:</label> <br/>
+            <input type="password" class="form-control" name="password"/>
+        </div>
+        <br/>
+        <div><input type="submit" value="Sign in"/></div>
 
-</form>
+    </form>
+</div>
 </body>
 </html>

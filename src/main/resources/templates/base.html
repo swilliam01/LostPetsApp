@@ -12,7 +12,8 @@
         <style>
             body {
                 background-image:url('https://images.pexels.com/photos/842395/pexels-photo-842395.jpeg?cs=srgb&dl=beautiful-bloom-blooming-842395.jpg&fm=jpg');
-                background-size: 1800px;
+                background-repeat: no-repeat;
+                background-size: cover;
             }
             .nav {
                 background-color: yellow;
@@ -26,6 +27,15 @@
                 font-size: 20px;
                 padding: 10px;
             }
+
+            .container {
+                width: 80%;
+                margib: 50px auto;
+                background-color: #fff;
+                padding: 30px;
+            }
+
+
         </style>
     </th:block>
 </head>
@@ -35,9 +45,11 @@
     <div class="w3-container">
     <div class="w3-bar w3-border w3-yellow">
         <a class="w3-bar-item"><b>Messaging App</b></a>
-        <a href="/" class="w3-bar-item w3-button">Home</a>
-        <a href="/login" class="w3-bar-item w3-button">Login</a>
-        <a href="/register" class="w3-bar-item w3-button">Register</a>
+        <div sec:authorize="!isAuthenticated()">
+        <a href="/register" class="w3-bar-item w3-button w3-right">Register</a>
+        <a href="/login" class="w3-bar-item w3-button w3-right">Login</a>
+        </div>
+        <a href="/" class="w3-bar-item w3-button w3-right">Home</a>
         <div sec:authorize="isAuthenticated()">
             <a class="w3-bar-item w3-button w3-dark-grey w3-right"> Welcome [[${#authentication.name}]]!</a>
             <a href="/logout" class="w3-bar-item w3-button w3-dark-grey w3-right">Logout</a>
@@ -46,9 +58,9 @@
     </div>
 
 </ul>
-    <div class="jumbotron text-center">
-    <h1>Welcome to Code Work Academy Messaging App</h1>
-    </div>
+    <!--<div class="jumbotron text-center">-->
+    <!--<h1>Welcome to Code Work Academy Messaging App</h1>-->
+    <!--</div>-->
 </div>
 </body>
 </html>

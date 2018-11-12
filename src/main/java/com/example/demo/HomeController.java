@@ -1,9 +1,11 @@
 package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Controller;
@@ -29,73 +31,72 @@ public class HomeController {
   UserRepository userRepository;
 
 
-    @RequestMapping("/")
-    public String listCourses(Model model){
-        model.addAttribute("messages", messageRepository.findAll());
-        return "list";
+  @RequestMapping("/")
+  public String listCourses(Model model) {
+    model.addAttribute("messages", messageRepository.findAll());
+    if(userService.getUser() != null) {
+      model.addAttribute("user_id", userService.getUser().getId());
     }
+    return "list";
+  }
 
   @GetMapping("/register")
-  public String showRegistrationPage(Model model){
+  public String showRegistrationPage(Model model) {
     model.addAttribute("user", new User());
-    return"registration";
+    return "registration";
   }
 
   @PostMapping("/register")
   public String processRegistrationPage(@Valid
                                         @ModelAttribute("user") User user, BindingResult result,
-                                        Model model){
-    model.addAttribute("user",user);
-    if (result.hasErrors()){
+                                        Model model) {
+    model.addAttribute("user", user);
+    if (result.hasErrors()) {
       return "registration";
-    }
-    else{
+    } else {
       userService.saveUser(user);
       model.addAttribute("message", "User Account Created");
     }
     return "login";
   }
 
-    @RequestMapping("/login")
-    public String login(){
-        return "login";
-    }
+  @RequestMapping("/login")
+  public String login() {
+    return "login";
+  }
 
   @GetMapping("/add")
-  public String listNow (Model model){
+  public String listNow(Model model) {
     model.addAttribute("message", new Message());
     return "listform";
   }
+
   @PostMapping("/process")
-  public String processList (@Valid @ModelAttribute("message") Message message, BindingResult result){
-    if(result.hasErrors()){
+  public String processList(@Valid @ModelAttribute("message") Message message, BindingResult result) {
+    if (result.hasErrors()) {
       return "listform";
     }
-
-      messageRepository.save(message);
+    message.setUser(userService.getUser());
+    messageRepository.save(message);
     return "redirect:/";
   }
 
   @RequestMapping("/edit/{id}")
-  public String updateList (@PathVariable ("id") long id, Model model){
-    model.addAttribute("message", messageRepository.findById(id).get());
-    return "listform";
-  }
-  @RequestMapping("/details/{id}")
-  public String showList (@PathVariable ("id") long id, Model model){
-    model.addAttribute("message", messageRepository.findById(id).get());
-    return "show";
-  }
-  @RequestMapping("/delete/{id}")
-  public String delList (@PathVariable ("id") long id){
-    messageRepository.deleteById(id);
-    return "redirect:/";
-  }
-  protected User getUser(){
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String currentUsername = authentication.getName();
-    User user = userRepository.findByUsername(currentUsername);
+  public String updateMessage(@PathVariable("id") long id, Model model) {
+      model.addAttribute("message", messageRepository.findById(id));
+      return "listform";
+    }
 
-    return user;
+    @RequestMapping("/details/{id}")
+    public String showMessage ( @PathVariable("id") long id, Model model){
+      model.addAttribute("message", messageRepository.findById(id).get());
+      return "show";
+    }
+    @RequestMapping("/delete/{id}")
+    public String delMessage ( @PathVariable("id") long id){
+      messageRepository.deleteById(id);
+      return "redirect:/";
+    }
+
+
   }
-}
