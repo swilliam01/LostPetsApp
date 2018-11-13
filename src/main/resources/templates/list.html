@@ -8,11 +8,11 @@
           center {
               margin: auto;
               width: 60%;
-              border: 3px solid #73AD21;
+              border: 3px solid black;
               padding: 10px;
           }
           .jumbotron {
-              background-color: antiquewhite;
+              background-color: lightgray;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ;
           }
     </style>
 </head>
@@ -21,38 +21,36 @@
 <div class="jumbotron text-center">
     <h1>My Pet is Missing!</h1>
 </div>
-<div class="container">
-<div sec:authorize="isAuthenticated()">
-    <a href="/add"><b>Add Lost Pet</b></a><br />
-</div>
-    <table class="w3-table w3-bordered w3-striped w3-border">
-        <th>Pet Name</th>
-        <th>Lost Date</th>
-        <th>Description</th>
-        <th>Status</th>
+    <div sec:authorize="isAuthenticated()">
+        <div class="container">
 
+
+        <div class="w3-card-4" style="width:275px;">
         <tr th:each="pet : ${pets}">
-        <td th:text="${pet.petName}"></td>
-        <td th:text="${pet.dateLost}"></td>
-        <td th:text="${pet.description}"></td>
-            <td th:text="${pet.status}">
-            <button type="button" class="btn btn-success"></button>
-            </td>
 
-            <td>
-            <div sec:authorize="hasAuthority('ADMIN')">
-            <a th:href="@{/edit/{id}(id=${pet.id})}">Update</a>
-            <a th:href="@{/details/{id}(id=${pet.id})}">Details</a>
+            <header class="w3-container w3-black text-center">
+          <td th:text="${pet.petName + ' is Missing!'}"></td><br>
+        <td th:text="${' Lost on ' + pet.dateLost}"></td>
+            </header>
+            <div class="w3-container">
+                <img th:src="${pet.headshot}" alt="animal" style="width:250px" />
+            </div>
+
+            <footer class="w3-container w3-black text-center">
+            <td th:text="${' Status: ' + pet.status}"></td><br>
+                <td>
+                <span th:if="${user_id == pet.user.id}">
+                 <a th:href="@{/edit/{id}(id=${pet.id})}">Update</a>
+                      </span>
+                       <div sec:authorize="hasAuthority('ADMIN')">
+            <a th:href="@{/edit/{id}(id=${pet.id})}">Update</a><br>
             <a th:href="@{/delete/{id}(id=${pet.id})}">Delete</a>
             </div>
-            <span th:if="${user_id == pet.user.id}">
-                 <a th:href="@{/edit/{id}(id=${pet.id})}">Update</a>
-                 <a th:href="@{/status/{id}(id=${pet.id})}"></a>
-            </span>
-            <a th:href="@{/details/{id}(id=${pet.id})}">Details</a>
-        </td>
+                </td>
+            </footer>
     </tr>
-</table>
+        </div>
+    </div>
 </div>
 </body>
 </html>

@@ -11,12 +11,12 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <style>
             body {
-                background-image:url('https://images.unsplash.com/photo-1427435150519-42d9bcd0aa81?ixlib=rb-0.3.5&s=78deb0a3a4330038b22197f0e53d7c81&auto=format&fit=crop&w=1950&q=80');
+                background-image:url('/img/dog-bg.png'),url('/img/dog-bg.png');
                 background-repeat: no-repeat;
-                background-size: cover;
+                background-position: right bottom, left top;
             }
             .nav {
-                background-color: yellow;
+                background-color: black;
                 list-style-type: none;
                 text-align: center;
                 margin: 0;
@@ -29,12 +29,11 @@
             }
 
             .container {
-                width: 80%;
+                width: 100%;
                 margib: 50px auto;
-                background-color: antiquewhitef;
+                background-color: white;
                 padding: 30px;
             }
-
 
         </style>
     </th:block>
@@ -43,14 +42,16 @@
 
 <div th:fragment="navlinks">
     <div class="w3-container">
-    <div class="w3-bar w3-border w3-yellow">
+    <div class="w3-bar w3-border w3-black">
         <a class="w3-bar-item"><b>Pet Missing App</b></a>
         <div sec:authorize="!isAuthenticated()">
         <a href="/register" class="w3-bar-item w3-button w3-right">Register</a>
         <a href="/login" class="w3-bar-item w3-button w3-right">Login</a>
+
         </div>
         <a href="/" class="w3-bar-item w3-button w3-right">Home</a>
         <div sec:authorize="isAuthenticated()">
+                <a href="/add" class="w3-bar-item w3-button w3-left"><b>Add Lost Pet</b></a>
             <a class="w3-bar-item w3-button w3-dark-grey w3-right"> Welcome [[${#authentication.name}]]!</a>
             <a href="/logout" class="w3-bar-item w3-button w3-dark-grey w3-right">Logout</a>
         </div>
@@ -58,9 +59,6 @@
     </div>
 
 </ul>
-    <!--<div class="jumbotron text-center">-->
-    <!--<h1>Welcome to Code Work Academy Messaging App</h1>-->
-    <!--</div>-->
 </div>
 </body>
 </html>

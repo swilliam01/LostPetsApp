@@ -7,29 +7,43 @@
 </head>
 <body>
 <div th:replace="base :: navlinks"></div>
-<form action="#"
+<div class="container">
+<form action="/action_page.php"
       th:action="@{/process}"
       th:object="${pet}"
-      method="post">
+      method="post"
+enctype="multipart/form-data">
     <input type="hidden" th:field="*{id}" />
 
-    Pet Name :<input type="text" th:field="*{petName}" />
-    <span th:if ="${#fields.hasErrors('petName')}" th:errors="*{petName}"></span><br />
+    <div>
+        <label>Pet Name : </label><br/>
+        <input type="text" class="form-control" name="petName"/>
+        <span th:if ="${#fields.hasErrors('petName')}" th:errors="*{petName}"></span><br />
+    </div>
 
-    Lost Date :<input type="text" th:field="*{dateLost}" />
-    <span th:if="${#fields.hasErrors('dateLost')}"
-          th:errors="*{dateLost}"></span><br />
+    <div>
+        <label>Lost Date :</label><br/>
+        <input type="text" class="form-control" name="dateLost"/>
+        <span th:if ="${#fields.hasErrors('dateLost')}" th:errors="*{dateLost}"></span><br />
+    </div>
 
-    Description :<textarea rows="4" th:field="*{description}" />
+
+    <label>Description :</label><br/>
+    <input type="text" class="form-control" name="description"/>
     <span th:if="${#fields.hasErrors('description')}"
           th:errors="*{description}"></span><br />
-    Status:
-    <input type="text" th:field="*{status}" />
-    <span th:if="${#fields.hasErrors('status')}"
-          th:errors="*{status}"></span><br />
-    <br />
+    <div>
+        <label>Status :</label><br/>
+        <input type="text" class="form-control" name="status"/>
+        <span th:if ="${#fields.hasErrors('status')}" th:errors="*{status}"></span><br />
+    </div>
 
+    <div>
+        <label>Add  Image</label><br/>
+        <input type="file" class="form-control" name="file"/>
+    </div><br><br />
     <input type="submit" value="Submit" />
 </form>
+</div>
 </body>
 </html>

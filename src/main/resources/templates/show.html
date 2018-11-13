@@ -16,8 +16,7 @@
         <th>Lost Date</th>
         <th>Description</th>
         <th>Status</th>
-
-        <tr>
+        <th>Image</th>
         <tr th:each="pet : ${pets}">
             <td th:text="${pet.petName}"></td>
             <td th:text="${pet.dateLost}"></td>
@@ -25,7 +24,9 @@
             <td th:text="${pet.status}">
                 <button type="button" class="btn btn-success"></button>
             </td>
-
+        <td>
+            <img th:src="${pet.headshot}" />
+        </td>
             <td>
                 <div sec:authorize="hasAuthority('ADMIN')">
                     <a th:href="@{/edit/{id}(id=${pet.id})}">Update</a>

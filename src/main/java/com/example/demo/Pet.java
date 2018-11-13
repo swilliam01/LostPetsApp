@@ -27,6 +27,16 @@ public class Pet {
   @NotNull
   private String status;
 
+  public String getHeadshot() {
+    return headshot;
+  }
+
+  public void setHeadshot(String headshot) {
+    this.headshot = headshot;
+  }
+
+  private String headshot;
+
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id")
   private User user;
