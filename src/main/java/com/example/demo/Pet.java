@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-public class Message {
+public class Pet {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,27 +14,24 @@ public class Message {
 
   @NotNull
   @Size(min = 3)
-  private String content;
+  private String petName;
 
   @NotNull
   @Size(min=4)
-  private String sentBy;
+  private String dateLost;
 
   @NotNull
   @Size(min = 3)
-  private String date;
+  private String description;
+
+  @NotNull
+  private String status;
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id")
   private User user;
 
-  public Message() {
-  }
-
-  public Message(@NotNull @Size(min = 3) String content, @NotNull @Size(min = 4) String sentBy, @NotNull @Size(min = 3) String date) {
-    this.content = content;
-    this.sentBy = sentBy;
-    this.date = date;
+  public Pet() {
   }
 
   public long getId() {
@@ -45,28 +42,36 @@ public class Message {
     this.id = id;
   }
 
-  public String getContent() {
-    return content;
+  public String getPetName() {
+    return petName;
   }
 
-  public void setContent(String content) {
-    this.content = content;
+  public void setPetName(String petName) {
+    this.petName = petName;
   }
 
-  public String getSentBy() {
-    return sentBy;
+  public String getDateLost() {
+    return dateLost;
   }
 
-  public void setSentBy(String sentBy) {
-    this.sentBy = sentBy;
+  public void setDateLost(String dateLost) {
+    this.dateLost = dateLost;
   }
 
-  public String getDate() {
-    return date;
+  public String getDescription() {
+    return description;
   }
 
-  public void setDate(String date) {
-    this.date = date;
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
   }
 
   public User getUser() {

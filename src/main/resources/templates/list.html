@@ -12,38 +12,44 @@
               padding: 10px;
           }
           .jumbotron {
-              background-color: #fff;
+              background-color: antiquewhite;
           }
     </style>
 </head>
 <body>
 <div th:replace="base :: navlinks"></div>
 <div class="jumbotron text-center">
-    <h1>Welcome to Code Work Academy Messaging App</h1>
+    <h1>My Pet is Missing!</h1>
 </div>
 <div class="container">
 <div sec:authorize="isAuthenticated()">
-    <a href="/add"><b>Add a message</b></a><br />
+    <a href="/add"><b>Add Lost Pet</b></a><br />
 </div>
     <table class="w3-table w3-bordered w3-striped w3-border">
-        <th>Content</th>
-        <th>Sent By</th>
-        <th>Date</th>
+        <th>Pet Name</th>
+        <th>Lost Date</th>
+        <th>Description</th>
+        <th>Status</th>
 
-    <tr th:each="message : ${messages}">
-        <td th:text="${message.content}"></td>
-        <td th:text="${message.sentBy}"></td>
-        <td th:text="${message.date}"></td>
-        <td>
+        <tr th:each="pet : ${pets}">
+        <td th:text="${pet.petName}"></td>
+        <td th:text="${pet.dateLost}"></td>
+        <td th:text="${pet.description}"></td>
+            <td th:text="${pet.status}">
+            <button type="button" class="btn btn-success"></button>
+            </td>
+
+            <td>
             <div sec:authorize="hasAuthority('ADMIN')">
-            <a th:href="@{/edit/{id}(id=${message.id})}">Update</a>
-            <a th:href="@{/details/{id}(id=${message.id})}">Details</a>
-            <a th:href="@{/delete/{id}(id=${message.id})}">Delete</a>
+            <a th:href="@{/edit/{id}(id=${pet.id})}">Update</a>
+            <a th:href="@{/details/{id}(id=${pet.id})}">Details</a>
+            <a th:href="@{/delete/{id}(id=${pet.id})}">Delete</a>
             </div>
-            <span th:if="${user_id == message.user.id}">
-                 <a th:href="@{/edit/{id}(id=${message.id})}">Update</a>
+            <span th:if="${user_id == pet.user.id}">
+                 <a th:href="@{/edit/{id}(id=${pet.id})}">Update</a>
+                 <a th:href="@{/status/{id}(id=${pet.id})}"></a>
             </span>
-            <a th:href="@{/details/{id}(id=${message.id})}">Details</a>
+            <a th:href="@{/details/{id}(id=${pet.id})}">Details</a>
         </td>
     </tr>
 </table>

@@ -1,27 +1,18 @@
 package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.jws.WebParam;
 import javax.validation.Valid;
-import java.security.Principal;
 
 @Controller
 public class HomeController {
 
   @Autowired
-  MessageRepository messageRepository;
+  PetRepository petRepository;
 
 
   @Autowired
@@ -32,8 +23,8 @@ public class HomeController {
 
 
   @RequestMapping("/")
-  public String listCourses(Model model) {
-    model.addAttribute("messages", messageRepository.findAll());
+  public String listPets (Model model) {
+    model.addAttribute("pets", petRepository.findAll());
     if(userService.getUser() != null) {
       model.addAttribute("user_id", userService.getUser().getId());
     }
@@ -55,7 +46,7 @@ public class HomeController {
       return "registration";
     } else {
       userService.saveUser(user);
-      model.addAttribute("message", "User Account Created");
+      model.addAttribute("pet", "User Account Created");
     }
     return "login";
   }
@@ -67,36 +58,40 @@ public class HomeController {
 
   @GetMapping("/add")
   public String listNow(Model model) {
-    model.addAttribute("message", new Message());
+    model.addAttribute("pet", new Pet());
     return "listform";
   }
 
   @PostMapping("/process")
-  public String processList(@Valid @ModelAttribute("message") Message message, BindingResult result) {
+  public String processList(@Valid @ModelAttribute("pet") Pet pet, BindingResult result) {
     if (result.hasErrors()) {
       return "listform";
     }
-    message.setUser(userService.getUser());
-    messageRepository.save(message);
+    pet.setUser(userService.getUser());
+    petRepository.save(pet);
     return "redirect:/";
   }
 
   @RequestMapping("/edit/{id}")
-  public String updateMessage(@PathVariable("id") long id, Model model) {
-      model.addAttribute("message", messageRepository.findById(id));
+  public String update(@PathVariable("id") long id, Model model) {
+      model.addAttribute("pet", petRepository.findById(id));
       return "listform";
     }
 
     @RequestMapping("/details/{id}")
-    public String showMessage ( @PathVariable("id") long id, Model model){
-      model.addAttribute("message", messageRepository.findById(id).get());
+    public String showDetails ( @PathVariable("id") long id, Model model){
+      model.addAttribute("pet", petRepository.findById(id).get());
       return "show";
     }
     @RequestMapping("/delete/{id}")
-    public String delMessage ( @PathVariable("id") long id){
-      messageRepository.deleteById(id);
+    public String delete ( @PathVariable("id") long id){
+      petRepository.deleteById(id);
       return "redirect:/";
     }
-
+  @RequestMapping("/status/{id}")
+  public String changeStatus ( @PathVariable("id") long id, Model model){
+    model.addAttribute("pet", petRepository.findById(id).get());
+    return "changeStatus";
+  }
 
   }

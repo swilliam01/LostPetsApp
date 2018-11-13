@@ -12,18 +12,24 @@
         <a href="/"><b>Show All Messages</b></a><br />
     </div>
     <table class="w3-table w3-bordered w3-striped w3-border">
-        <th>Content</th>
-        <th>Sent By</th>
-        <th>Date</th>
+        <th>Pet Name</th>
+        <th>Lost Date</th>
+        <th>Description</th>
+        <th>Status</th>
 
         <tr>
-            <td th:text="${message.content}"></td>
-            <td th:text="${message.sentBy}"></td>
-            <td th:text="${message.date}"></td>
+        <tr th:each="pet : ${pets}">
+            <td th:text="${pet.petName}"></td>
+            <td th:text="${pet.dateLost}"></td>
+            <td th:text="${pet.description}"></td>
+            <td th:text="${pet.status}">
+                <button type="button" class="btn btn-success"></button>
+            </td>
+
             <td>
                 <div sec:authorize="hasAuthority('ADMIN')">
-                    <a th:href="@{/edit/{id}(id=${message.id})}">Update</a>
-                    <a th:href="@{/delete/{id}(id=${message.id})}">Delete</a>
+                    <a th:href="@{/edit/{id}(id=${pet.id})}">Update</a>
+                    <a th:href="@{/delete/{id}(id=${pet.id})}">Delete</a>
                 </div>
             </td>
         </tr>

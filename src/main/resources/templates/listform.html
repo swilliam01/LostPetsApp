@@ -9,22 +9,26 @@
 <div th:replace="base :: navlinks"></div>
 <form action="#"
       th:action="@{/process}"
-      th:object="${message}"
+      th:object="${pet}"
       method="post">
     <input type="hidden" th:field="*{id}" />
 
-    Content ::<textarea rows="4" th:field="*{content}" />
-    <span th:if ="${#fields.hasErrors('content')}" th:errors="*{content}"></span><br />
+    Pet Name :<input type="text" th:field="*{petName}" />
+    <span th:if ="${#fields.hasErrors('petName')}" th:errors="*{petName}"></span><br />
 
-    Sent By :<input type="text" th:field="*{sentBy}" />
-    <span th:if="${#fields.hasErrors('sentBy')}"
-          th:errors="*{sentBy}"></span><br />
+    Lost Date :<input type="text" th:field="*{dateLost}" />
+    <span th:if="${#fields.hasErrors('dateLost')}"
+          th:errors="*{dateLost}"></span><br />
 
-    Date :<input type="text" th:field="*{date}" />
-    <span th:if="${#fields.hasErrors('date')}"
-          th:errors="*{date}"></span><br />
-
+    Description :<textarea rows="4" th:field="*{description}" />
+    <span th:if="${#fields.hasErrors('description')}"
+          th:errors="*{description}"></span><br />
+    Status:
+    <input type="text" th:field="*{status}" />
+    <span th:if="${#fields.hasErrors('status')}"
+          th:errors="*{status}"></span><br />
     <br />
+
     <input type="submit" value="Submit" />
 </form>
 </body>
