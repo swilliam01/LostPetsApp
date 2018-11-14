@@ -18,16 +18,20 @@
       action="/action_page.php"
       th:action="@{/register}"
       th:object="${user}" method="post">
+
             <label for="firstname">First Name:</label>
     <span th:if="${#fields.hasErrors('firstname')}"
           th:errors="*{firstname}">First Name Error</span>
-    <input type="text" id="firstname" class="form-control" placeholder="First Name"
-           th:field="*{firstname}" /><br />
+    <input type="text" id="firstname" class="form-control" placeholder="First Name"  th:field="*{firstname}" /><br />
+
+
             <label for="lastname">Last Name:</label>
             <span th:if="${#fields.hasErrors('lastname')}"
                   th:errors="*{lastname}">Last Name Error</span>
             <input type="text" id="lastname" class="form-control" placeholder="Last Name"
                    th:field="*{lastname}" /><br />
+
+
             <label for="email">Email:</label>
             <span th:if="${#fields.hasErrors('email')}"
                   th:errors="*{email}">Email Error</span>
@@ -43,7 +47,7 @@
             <span th:if="${#fields.hasErrors('password')}"
                   th:errors="*{password}">Password Error</span>
             <input type="text" id="password" class="form-control" placeholder="password"
-                   th:field="*{username}" /><br />
+                   th:field="*{password}" /><br />
             <br/>
     <button type="submit" class="btn btn-default">Register</button>
 

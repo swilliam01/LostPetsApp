@@ -47,14 +47,14 @@ public class HomeController {
 
   @PostMapping("/register")
   public String processRegistrationPage(@Valid
-                                        @ModelAttribute("user") User user, BindingResult result,
-                                        Model model) {
-    model.addAttribute("user", user);
+                                        @ModelAttribute("user") User user, BindingResult result,Model model) {
+      model.addAttribute("user", user);
     if (result.hasErrors()) {
       return "registration";
-    } else {
-      userService.saveUser(user);
-      model.addAttribute("pet", "User Account Created");
+    } else
+        {
+    userService.saveUser(user);
+    model.addAttribute("pet", "User Account Created");
     }
     return "login";
   }
