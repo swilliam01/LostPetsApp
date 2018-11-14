@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:insert="base :: header"></th:block>
+</head>
+<body>
+<div th:replace="base :: navlinks"></div>
+<div class="container">
+<div class="w3-card-4  col-sm-3 " style="width:275px;">
+    <div th:each="result : ${results}">
+
+        <header class="w3-container w3-black text-center">
+            <p th:text="${result.petName}"/>
+        </header>
+        <div class="w3-container">
+            <img th:src="${result.headshot}" alt="animal" style="width:250px" />
+        </div>
+
+        <footer class="w3-container w3-black text-center">
+            <p th:text="${' Status: ' + result.status}"></p><br>
+        </footer>
+    </div><br/>
+</div>
+</div>
+</body>
+</html>

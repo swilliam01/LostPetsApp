@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 @Controller
@@ -30,9 +31,9 @@ public class HomeController {
 
 
   @RequestMapping("/")
-  public String listPets (Model model) {
+  public String listPets(Model model) {
     model.addAttribute("pets", petRepository.findAll());
-    if(userService.getUser() != null) {
+    if (userService.getUser() != null) {
       model.addAttribute("user_id", userService.getUser().getId());
     }
     return "list";
@@ -70,8 +71,9 @@ public class HomeController {
   }
 
   @PostMapping("/process")
-  public String processList(@Valid @ModelAttribute("pet") Pet pet, BindingResult result,
-                            @RequestParam("file")MultipartFile file){
+  public String processList(@Valid @ModelAttribute("pet") Pet pet,
+                            BindingResult result,
+                            @RequestParam("file") MultipartFile file) {
     if (result.hasErrors()) {
       return "listform";
     }
@@ -79,17 +81,17 @@ public class HomeController {
     petRepository.save(pet);
 //    return "redirect:/";
 
-    if(file.isEmpty()){
-      return "redirect:/add";
+    if (file.isEmpty()) {
+      return "listform";
     }
-    try{
+    try {
       Map uploadResult = cloudc.upload(file.getBytes(),
               ObjectUtils.asMap("resourcetype", "auto"));
       pet.setHeadshot(uploadResult.get("url").toString());
       petRepository.save(pet);
-    }catch (IOException e){
+    } catch (IOException e) {
       e.printStackTrace();
-      return "redirect:/add";
+      return "listform";
     }
     return "redirect:/";
 
@@ -97,24 +99,51 @@ public class HomeController {
 
   @RequestMapping("/edit/{id}")
   public String update(@PathVariable("id") long id, Model model) {
-      model.addAttribute("pet", petRepository.findById(id).get());
-      return "listform";
-    }
-
-//    @RequestMapping("/details/{id}")
-//    public String showDetails ( @PathVariable("id") long id, Model model){
-//      model.addAttribute("pet", petRepository.findById(id).get());
-//      return "show";
-//    }
-    @RequestMapping("/delete/{id}")
-    public String delete ( @PathVariable("id") long id){
-      petRepository.deleteById(id);
-      return "redirect:/";
-    }
-  @RequestMapping("/status/{id}")
-  public String changeStatus ( @PathVariable("id") long id, Model model){
     model.addAttribute("pet", petRepository.findById(id).get());
-    return "changeStatus";
+    return "listform";
   }
 
+  @RequestMapping("/delete/{id}")
+  public String delete(@PathVariable("id") long id) {
+    petRepository.deleteById(id);
+    return "redirect:/";
   }
+
+  @RequestMapping("/status/{id}")
+  public String changeStatus(@PathVariable("id") long id) {
+    Pet pet = petRepository.findById(id).get();
+    if(pet.getStatus().equalsIgnoreCase("lost")){
+      pet.setStatus("found");
+      petRepository.save(pet);
+    }
+    else if(pet.getStatus().equalsIgnoreCase("found")){
+      pet.setStatus("lost");
+      petRepository.save(pet);
+    }
+
+    return "redirect:/";
+  }
+
+  @RequestMapping("/foundpets")
+  public String foundpet(Model model) {
+    String status = "found";
+    ArrayList<Pet> results = (ArrayList<Pet>)
+            petRepository.findAllByStatus(status);
+    model.addAttribute("found", status);
+    model.addAttribute("results", results);
+    return "index";
+
+  }
+
+  @RequestMapping("/lostpets")
+  public String lostpet(Model model) {
+    String status = "lost";
+    ArrayList<Pet> results = (ArrayList<Pet>)
+            petRepository.findAllByStatus(status);
+    model.addAttribute("lost", status);
+    model.addAttribute("results", results);
+    return "index";
+  }
+
+}
+

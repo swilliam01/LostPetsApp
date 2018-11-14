@@ -11,9 +11,9 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <style>
             body {
-                background-image:url('/img/dog-bg.png'),url('/img/dog-bg.png');
+                background-image:url('/img/balloons-paws.png');
                 background-repeat: no-repeat;
-                background-position: right bottom, left top;
+                background-position:center top;
             }
             .nav {
                 background-color: black;
@@ -44,6 +44,8 @@
     <div class="w3-container">
     <div class="w3-bar w3-border w3-black">
         <a class="w3-bar-item"><b>Pet Missing App</b></a>
+        <a href="/foundpets" class="w3-bar-item w3-button w3-right">Found Pets</a>
+        <a href="/lostpets" class="w3-bar-item w3-button w3-right">Lost Pets</a>
         <div sec:authorize="!isAuthenticated()">
         <a href="/register" class="w3-bar-item w3-button w3-right">Register</a>
         <a href="/login" class="w3-bar-item w3-button w3-right">Login</a>
@@ -51,7 +53,7 @@
         </div>
         <a href="/" class="w3-bar-item w3-button w3-right">Home</a>
         <div sec:authorize="isAuthenticated()">
-                <a href="/add" class="w3-bar-item w3-button w3-left"><b>Add Lost Pet</b></a>
+            <a href="/add" class="w3-bar-item w3-button w3-left"><b>Add Lost Pet</b></a>
             <a class="w3-bar-item w3-button w3-dark-grey w3-right"> Welcome [[${#authentication.name}]]!</a>
             <a href="/logout" class="w3-bar-item w3-button w3-dark-grey w3-right">Logout</a>
         </div>
